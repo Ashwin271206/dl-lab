@@ -15,3 +15,14 @@ A baseline MLP (784 → Dense(128, ReLU) → Dense(64, ReLU) → Dense(10, Softm
 - `Additional Tasks.ipynb` - Colab note book with code for XOR gate using MLP.
 - `Lab 2 - Multilayer Perceptron.pdf` — Full lab report in PDF (theory, procedure, results, plots with inferences, discussion, conclusion).
 - `figures/` — Generated plots (sample images, class distribution, accuracy/loss curves, confusion matrix, hyperparameter search results) as PNGs.
+
+## How to Run
+
+The experiments are designed to run directly in **Google Colab**.
+
+1. Open / upload the `Source Code.ipynb` notebook in [Google Colab](https://colab.research.google.com/).
+2. For better performance, go to **Runtime → Change runtime type** and select **GPU** as the hardware accelerator.
+3. Run all cells using **Runtime → Run all**.
+4. The notebook will automatically perform dataset exploration, preprocessing, model training, evaluation, and generate the required plots and results.
+
+No local Python environment or additional setup is required.

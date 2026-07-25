@@ -1,13 +1,18 @@
 # CS3807 - Deep Learning Laboratory
 
-**Shiv Nadar University Chennai**
-**Degree & Branch:** B.Tech Artificial Intelligence & Data Science
-**Semester:** V
-**Subject Code & Name:** CS3807 – Deep Learning Laboratory
+**Shiv Nadar University Chennai**  
 
-**Name:** Ashwin S
-**Reg. No:** 24011101007
-**Class:** AI-DS 'A'
+**Degree & Branch:** B.Tech Artificial Intelligence & Data Science  
+
+**Semester:** V  
+
+**Subject Code & Name:** CS3807 – Deep Learning Laboratory  
+ 
+**Name:** Ashwin S  
+
+**Reg. No:** 24011101007  
+
+**Class:** AI-DS 'A'  
 
 ---
 
