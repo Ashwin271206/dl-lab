@@ -583,18 +583,16 @@ Result: The convolution layer has 1,792 trainable parameters.\\
 \includegraphics[width=0.8\textwidth]{figures/12_relu_vs_sigmoid.png}
 \end{center}
 
-ReLU converges faster and typically achieves higher accuracy than Sigmoid, since it avoids the vanishing-gradient problem for positive inputs and is computationally cheaper. Sigmoid saturates at both extremes, causing gradients to shrink and slowing down learning.\\
-
+The ReLU model learns faster and usually reaches a higher accuracy than the Sigmoid model. ReLU helps reduce the vanishing gradient issue for positive inputs, which allows the network to learn more effectively. Sigmoid tends to produce very small gradients at its extreme values, which slows down the learning process.\
 
 \vspace{4mm}
-\textbf{4. Max Pooling vs Average Pooling -- Full Training Comparison}
+\textbf{4. Max Pooling vs Average Pooling: Full Training Comparison}
 
 \begin{center}
 \includegraphics[width=0.8\textwidth]{figures/13_maxpool_vs_avgpool_training.png}
 \end{center}
 
-The Max Pooling model generally achieves marginally higher validation accuracy than the Average Pooling model, as it better preserves the most salient activations relevant to classification, while Average Pooling produces a smoother but slightly less discriminative representation.\\
-
+The Max Pooling model performs slightly better on validation accuracy compared to Average Pooling. Max Pooling keeps the strongest activations from each region, which helps retain important features for classification. Average Pooling instead takes the average of the values, giving a smoother representation but losing some of the stronger features.\
 
 \vspace{4mm}
 \textbf{5. Effect of Increasing Filter Count (16 $\rightarrow$ 64)}
@@ -603,46 +601,48 @@ The Max Pooling model generally achieves marginally higher validation accuracy t
 \includegraphics[width=0.8\textwidth]{figures/14_filter_count_comparison.png}
 \end{center}
 
-Increasing the number of filters from 16 to 64 allows the network to learn a richer, more diverse set of feature detectors, generally improving accuracy at the cost of increased trainable parameters and higher computation time per epoch, illustrating the accuracy-versus-efficiency trade-off in CNN design.
+Increasing the filter count from 16 to 64 gives the CNN more filters to detect different features in the images. This can improve the model's accuracy, but it also increases the number of parameters and the time required for training. The results show the trade off between getting better performance and keeping the model efficient.
 
 \vspace{6mm}
 \section*{9. Discussion}
 
 \textbf{1. Why is convolution preferred over fully connected layers for images?}
 
-Convolutional layers exploit the spatial locality of image data and use weight sharing across the entire input, drastically reducing the number of trainable parameters compared to fully connected layers. This local connectivity also makes CNNs translation-invariant, which is essential for robust image classification and would be computationally infeasible with a fully connected layer treating every pixel independently.
+Convolution works well for images because it looks at small regions of the image at a time and can detect useful patterns such as edges and textures. The same filter is used across different parts of the image, so the number of parameters is much smaller than in a fully connected layer. It also helps the network recognize features even when their position changes slightly in the image.
 
 \vspace{4mm}
 \textbf{2. How does stride affect the feature map size?}
 
-Stride controls how many pixels the kernel moves at each step. A larger stride skips more pixels between convolutions, producing a smaller output feature map, as governed by $\frac{N-F+2P}{S}+1$. Increasing stride reduces spatial resolution and computational cost but risks losing fine-grained spatial detail.
+Stride decides how far the kernel moves after each convolution. A larger stride makes the kernel skip more pixels, resulting in a smaller feature map. The output size can be calculated using $\frac{N-F+2P}{S}+1$. Increasing the stride reduces the spatial size and computation, but too large a stride can cause some important image details to be lost.
 
 \vspace{4mm}
 \textbf{3. What is the role of padding?}
 
-Padding adds extra pixels (typically zeros) around the border of the input before convolution. It preserves the spatial dimensions of the output (as with \texttt{same} padding) and ensures that border pixels are used as often as central pixels during convolution, preventing loss of edge information across successive layers.
+Padding adds extra pixels around the edges of the input image, usually with zeros. It helps maintain the size of the feature map, especially when using \texttt{same} padding. It also allows the pixels near the edges to be considered properly instead of being used less often than the pixels in the middle.
 
 \vspace{4mm}
 \textbf{4. Why is pooling used?}
 
-Pooling downsamples feature maps, reducing their spatial dimensions and the number of parameters in subsequent layers, which lowers computational cost and helps control overfitting. It also introduces translation invariance, making the network less sensitive to small shifts in feature position.
+Pooling reduces the size of a feature map while keeping the important information. This reduces the amount of computation in the later layers and can also help prevent overfitting. It also makes the network less affected by small changes in the position of a feature.
 
 \vspace{4mm}
 \textbf{5. How do feature maps represent image characteristics?}
 
-Each feature map is the response of a specific learned filter applied across the input image, highlighting regions where that pattern (an edge, corner, texture, or colour transition) is present. Early layers typically produce low-level feature maps (edges, colours), while deeper layers combine these into more abstract, high-level representations.
+A feature map shows where a particular filter finds a useful pattern in an image. For example, a filter in an early layer may detect edges or colour changes. As we move to deeper layers, the network combines these simple features to detect more complex patterns and objects.
 
 \vspace{4mm}
 \textbf{6. Why do CNNs require fewer parameters than MLPs?}
 
-CNNs use weight sharing -- the same small set of kernel weights is applied across all spatial locations -- rather than learning a unique weight for every input-output pixel pair as a fully connected MLP would. Combined with local receptive fields, this drastically reduces the parameter count while still learning spatially meaningful features.
+CNNs use the same set of kernel weights at different positions in the image instead of using separate weights for every connection. They also work with small local regions rather than connecting every pixel to every neuron. Because of this, CNNs can learn useful image features with far fewer parameters than a fully connected MLP.
 
 \vspace{6mm}
 \section*{10. Conclusion}
 
-In this experiment, the fundamental building blocks of Convolutional Neural Networks -- convolution, activation, pooling, and fully connected layers -- were implemented and studied in detail using the CIFAR-10 dataset. The convolution operation and its dependence on kernel size, stride, and padding were verified both numerically and through direct implementation, confirming the theoretical output-size formula $\frac{N-F+2P}{S}+1$. Feature map visualizations demonstrated that convolutional filters extract diverse, complementary spatial patterns from the input image, while the comparison between Max Pooling and Average Pooling highlighted the trade-off between preserving salient activations and producing smoother, noise-tolerant representations.
+In this experiment, the main building blocks of Convolutional Neural Networks, including convolution, activation, pooling, and fully connected layers, were implemented and tested using the CIFAR 10 dataset. The effect of kernel size, stride, and padding on the convolution output was also studied through calculations and direct implementation. The results matched the expected output size given by $\frac{N-F+2P}{S}+1$. Visualizing the feature maps showed how different filters can detect different patterns in an image. The comparison between Max Pooling and Average Pooling also showed that Max Pooling keeps stronger features, while Average Pooling produces a smoother representation.
 
-A complete CNN following the architecture Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Flatten $\rightarrow$ Dense $\rightarrow$ Softmax was trained on CIFAR-10 using the Adam optimizer for 20 epochs, and evaluated using standard classification metrics along with a confusion matrix. The additional exercises further reinforced the understanding of parameter scaling, activation function behaviour, and the accuracy-versus-computation trade-off associated with increasing the number of convolutional filters. Overall, the experiment provided practical, hands-on confirmation of the theoretical principles underlying CNN-based image classification, and identified regularization (batch normalization, dropout, and L2 weight decay) as a promising direction for improving generalization performance in future iterations of the model.
+A CNN with the architecture Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Flatten $\rightarrow$ Dense $\rightarrow$ Softmax was trained on CIFAR 10 for 20 epochs using the Adam optimizer. The model was then evaluated using classification metrics and a confusion matrix. The additional experiments helped in understanding how the number of parameters changes, how different activation functions affect training, and how increasing the number of filters can improve accuracy while also increasing computation.
+
+Overall, the experiment gave practical experience with the basic concepts behind CNNs and showed how different design choices affect the model's performance. It also showed that techniques such as batch normalization, dropout, and L2 regularization could be explored further to improve the model's performance and generalization.
 
 \vspace{6mm}
 \section*{11. References}
