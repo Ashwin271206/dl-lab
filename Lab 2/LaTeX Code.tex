@@ -1,0 +1,397 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,longtable}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\setlist{nosep}
+
+\begin{document}
+
+\begin{center}
+{\Large\textbf{Shiv Nadar University Chennai}}\\
+\textbf{CS3807 -- Deep Learning Laboratory}\\
+\textbf{Experiment 2}\\
+{\large\textbf{Implementation of a Multi-Layer Perceptron (MLP) for Multi-Class Image Classification}}
+\end{center}
+
+\renewcommand{\arraystretch}{1.25}
+
+\begin{tabular}{|p{3.8cm}|p{8cm}|p{2cm}|}
+\hline
+Degree \& Branch & B.Tech Artificial Intelligence \& Data Science & Semester V\\ \hline
+Subject Code \& Name & CS3807 -- Deep Learning Laboratory & AY: 2026--27\\ \hline
+\end{tabular}
+
+Name : Ashwin S\\
+Reg no : 24011101007\\
+Class : AI DS - A (batch 1)\\
+
+\section*{1. Objective}
+Implement an MLP using TensorFlow/Keras on the Fashion-MNIST dataset. Learn image preprocessing, flattening, model construction, training, evaluation, and automated hyperparameter optimization.
+
+\section*{2. Theory}
+An MLP consists of an input layer, hidden layers and an output layer.
+
+\[
+z^{(l)}=W^{(l)}a^{(l-1)}+b^{(l)},\qquad
+a^{(l)}=f(z^{(l)})
+\]
+
+Output layer:
+\[
+\hat y=\mathrm{Softmax}(z)
+\]
+
+Loss:
+\[
+L=-\sum_i y_i\log(\hat y_i)
+\]
+
+Recommended architecture:
+
+\begin{center}
+784 $\rightarrow$ Dense(128, ReLU) $\rightarrow$ Dense(64, ReLU) $\rightarrow$ Dense(10, Softmax)
+\end{center}
+
+\section*{3. Dataset}
+Dataset: Fashion-MNIST
+
+Training Images: 60,000 \\
+Testing Images: 10,000 \\
+Classes: 10 \\
+Image Size: $28\times28$
+
+Fashion-MNIST images are stored as $28\times28$ matrices. Dense layers require a one-dimensional feature vector.
+
+\[
+28\times28=784
+\]
+
+Example:
+
+\[
+\begin{bmatrix}
+10&20\\30&40
+\end{bmatrix}
+\rightarrow
+[10,20,30,40]
+\]
+
+Preprocessing performed:
+
+\begin{enumerate}
+\item Load Fashion-MNIST.
+\item Display sample images.
+\item Flatten images.
+\item Normalize pixels to [0,1].
+\item Convert labels into one-hot vectors.
+\end{enumerate}
+
+\section*{4. Experimental Procedure}
+
+\textbf{Task 1: Dataset Exploration}
+\begin{itemize}
+\item Load Fashion-MNIST.
+\item Print dataset dimensions.
+\item Display ten sample images.
+\item Plot class distribution.
+\end{itemize}
+
+\textbf{Expected Output:}
+Dataset summary and sample images.
+
+\bigskip
+
+\textbf{Task 2: Data Preprocessing}
+
+\begin{itemize}
+\item Flatten images.
+\item Normalize pixel values.
+\item Print tensor shapes before and after preprocessing.
+\end{itemize}
+
+\bigskip
+
+\textbf{Task 3: Model Construction}
+
+Construct an MLP with
+
+\begin{itemize}
+\item Input layer (784)
+\item Dense(128, ReLU)
+\item Dense(64, ReLU)
+\item Dense(10, Softmax)
+\end{itemize}
+
+Display \texttt{model.summary()}.
+
+\bigskip
+
+\textbf{Task 4: Model Training}
+
+Compile using
+
+\begin{itemize}
+\item Optimizer: Adam
+\item Loss: Categorical Cross Entropy
+\item Metric: Accuracy
+\end{itemize}
+
+Train for 20 epochs with batch size 32.
+
+\bigskip
+
+\textbf{Task 5: Model Evaluation}
+
+Compute
+
+\begin{itemize}
+\item Accuracy
+\item Precision
+\item Recall
+\item F1-score
+\item Confusion Matrix
+\item Classification Report
+\end{itemize}
+
+\section*{5. Source Code}
+
+The complete implementation, including data preprocessing, model construction, training, evaluation, and hyperparameter optimization, is available in the following repository :
+
+\url{https://github.com/Ashwin271206/dl-lab/tree/main/Lab%202}
+
+The repository contains a single Google Colab notebook covering all tasks experimented in this report, along with the generated figures.
+
+\section*{6. Hyperparameter Optimization}
+
+Instead of manually selecting hyperparameters, hyperparameter optimization is performed using \textbf{RandomizedSearchCV}  together with the SciKeras wrapper.
+
+The following hyperparameters were optimized :
+
+\begin{center}
+\begin{tabular}{|p{5cm}|p{7cm}|}
+\hline
+Hyperparameter & Candidate Values\\
+\hline
+Hidden Layers & 1, 2, 3\\
+Hidden Neurons & 32, 64, 128, 256\\
+Learning Rate & 0.1, 0.01, 0.001\\
+Batch Size & 16, 32, 64, 128\\
+Epochs & 10, 20, 30\\
+Optimizer & SGD, Adam, RMSProp\\
+Activation Function & ReLU, Tanh, Sigmoid\\
+Dropout Rate (Optional) & 0.0, 0.2, 0.5\\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection*{Tasks}
+
+\begin{enumerate}
+\item Build a baseline MLP model.
+\item Define the hyperparameter search space.
+\item Perform Grid Search or Randomized Search using 5-fold cross-validation.
+\item Record the best hyperparameter combination.
+\item Retrain the model using the optimized hyperparameters.
+\item Evaluate the optimized model on the testing dataset.
+\item Compare the optimized model with the baseline model.
+\end{enumerate}
+
+\section*{7. Results}
+
+\textbf{Best Hyperparameters}
+
+\begin{tabular}{|p{6cm}|p{6cm}|}
+\hline
+Hidden Layers & 2\\\hline
+Hidden Neurons & 64\\\hline
+Learning Rate & 0.001\\\hline
+Batch Size & 128\\\hline
+Optimizer & Adam\\\hline
+Activation Function & Tanh\\\hline
+Epochs & 30\\\hline
+Dropout & 0.5\\\hline
+Cross-validation Accuracy & 0.8257\\\hline
+Testing Accuracy & 0.8705\\\hline
+\end{tabular}
+
+\vspace{3mm}
+
+\textbf{Performance Comparison}
+
+\begin{tabular}{|p{4cm}|c|c|}
+\hline
+Metric & Baseline & Optimized\\
+\hline
+Accuracy&0.8840&0.8705\\
+Precision&0.8846&0.8719\\
+Recall&0.8840&0.8705\\
+F1-score&0.8842&0.8709\\
+Training Time (s)&134.51&50.51\\
+\hline
+\end{tabular}
+
+
+\section*{8. Plots \& Inferences}
+
+\textbf{Sample Images}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/sample_images.png}
+\end{center}
+
+The sample image grid was generated successfully, indicating that the dataset is fully loaded and labelled correctly. These 28 x 28 images look like the mentioned categories such as tops, dresses, sandals, etc, showing that the dataset is fully read in the expected format.\\
+
+\textbf{Class Distribution}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/class_distribution.png}
+\end{center}
+
+All ten classes have an equal number of training samples as that Fashion-MNIST is a balanced dataset. This equal distribution of classes means that evaluation metrics would be fair for all classes, and the metric of every class matters equally.\\
+
+\textbf{Training Accuracy vs Epoch}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/training_accuracy_vs_epoch.png}
+\end{center}
+
+This plot indicates that training accuracy increases steadily across 20 epochs. No irregular spikes were seen, meaning that the model learns consistently on the training data. The curve does not stabilize completely at 20 epochs, suggesting that the model has some more training capacity beyond 20 epochs..\\
+
+\textbf{Validation Accuracy vs Epoch}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/validation_accuracy_vs_epoch.png}
+\end{center}
+
+Validation accuracy rises quickly in the first few epochs and then continues to improve more gradually, stabilizes around epoch 12. There was no overfitting detected as accuracy did not drop with later epochs, and show that batch normalization, dropout and L2 decay were effective in stopping overfitting. A few fluctuations were found in the plot.\\
+
+\textbf{Training Loss vs Epoch}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/training_loss_vs_epoch.png}
+\end{center}
+
+Training loss decreases rapidly in the beginning, and then decreases smoothly and consistently across later epochs. This shows the consistent improvement of the model and is approaching convergence. This aligns with the inferences of previous plots, that the model is improving steadily without any oscillations.\\
+
+\textbf{Validation Loss vs Epoch}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/validation_loss_vs_epoch.png}
+\end{center}
+
+Validation loss decreases almost monotonically from 0.53 to about 0.35, and stabilizes after around epoch 12. This matches with the inference of validation accuracy curve. This indicates that there is no overfitting as there is no spike in later epochs.\\\\
+
+\textbf{Confusion Matrix}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{outputs/figures/confusion_matrix_baseline.png}
+\end{center}
+
+The confusion matrix shows strong performance across most classes, and the diagonal is clearly dominant. Most classes are identified correctly. The misclassified samples seem to be similar garments like shirts, coats and pullovers.\\
+
+\textbf{Hyperparameter Search Results}
+
+\begin{center}
+\includegraphics[width=0.8\textwidth]{outputs/figures/hyperparameter_search_results.png}
+\end{center}
+
+Individual trial scores vary considerably, with a few sharp drops corresponding to poorly performing hyperparameter combinations (for example, SGD with a high learning rate, or sigmoid activation across multiple layers). The best-so-far line overlaid on the plot shows that a strong configuration was already found within the first ten iterations, after which further search iterations mostly served to confirm rather than substantially improve on it.\\
+
+\textbf{Best Model Accuracy Comparison}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{outputs/figures/best_model_accuracy_comparison.png}
+\end{center}
+
+The bar chart shows the baseline model slightly better optimized model on test accuracy. Hyperparameter optimization here traded a small amount of accuracy for a much faster training time, rather than producing a better model on accuracy alone.\\
+
+\section*{9. Additional Experiment: XOR Gate using a Multi-Layer Perceptron}
+
+The previous experiment pointed out that single layer perceptrons cannot solve non-linearly separable problems like the XOR problem. This additional experiment uses a manually implemented multilayer perceptron with forward and backward propagation and weight updates with one hidden layer to learn the XOR function. The multilayer perceptron was trained for 8000 weight updates, and the weights were tracked at each step to observe how the decision boundary gradually reshapes itself from a straight line into a curve that correctly separates the classes. It converges at around 2000 epochs.\\\\
+
+\textbf{Initial Weights and Biases}
+
+\begin{center}
+\begin{tabular}{|p{4cm}|p{8cm}|}
+\hline
+Initial $W_1$ & $\begin{bmatrix} -0.251 & 0.901 \\ 0.464 & 0.197 \end{bmatrix}$ \\\hline
+Initial $b_1$ & $\begin{bmatrix} -0.688 & -0.688 \end{bmatrix}$ \\\hline
+Initial $W_2$ & $\begin{bmatrix} -0.884 \\ 0.732 \end{bmatrix}$ \\\hline
+Initial $b_2$ & $\begin{bmatrix} 0.202 \end{bmatrix}$ \\\hline
+\end{tabular}
+\end{center}
+
+\textbf{Decision Boundary Evolution}
+
+\begin{center}
+\includegraphics[width=1\textwidth]{outputs/figures/epoch1.png}
+\end{center}
+At epoch 1, the decision boundary is still close to its randomly initialized state. It forms a roughly straight line that does not separate the XOR classes correctly.
+
+\begin{center}
+\includegraphics[width=1\textwidth]{outputs/figures/epoch1000.png}
+\end{center}
+By epoch 1000, the boundary has started to bend, showing the hidden layer beginning to carve out a non-linear region around the positive class.
+
+\begin{center}
+\includegraphics[width=1\textwidth]{outputs/figures/epoch2000.png}
+\end{center}
+By epoch 2000, the decision boundary has curved enough to correctly enclose the two positive XOR points while excluding the two negative ones. This shows that the multilayer perceptron has learned the separation completely.\\
+
+\textbf{Final Predictions vs Targets}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Input Pattern & (0,0) & (0,1) & (1,0) & (1,1) \\
+\hline
+Final Prediction & 0.064 & 0.925 & 0.944 & 0.056 \\
+Target & 0 & 1 & 1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+.
+
+\section*{10. Discussion}
+
+\textbf{1. Which optimization method was used?}
+
+RandomizedSearchCV was used instead of GridSearchCV. The size of the search grid of hyperparameters (hidden layers, hidden neurons, learning rate, batch size, epochs, optimizer, activation, and dropout rate), a full grid would have required training thousands of model combinations under 5-fold cross-validation, which was not practical using the available computing resources. Hence, RandomizedSearchCV was used. RandomizedSearchCV samples a fixed number of combinations (20) from the space, which gave a reasonable trade-off between search quality and runtime.\\
+
+\textbf{2. Which hyperparameters were selected?}
+
+The search selected 2 hidden layers of 64 neurons each, a learning rate of 0.001, batch size 128, Adam optimizer, Tanh activation, 30 training epochs, and a dropout rate of 0.5. This is a smaller, more heavily regularized network than the baseline (128 $\rightarrow$ 64), with a fair dropout rate. This shows that the search favoured a configuration that generalizes rather than a configuration that maximizes raw capacity.\\
+
+\textbf{3. Did optimization improve performance?}
+
+Optimization did not improve in terms of accuracy, the baseline reached 88.40\% test accuracy while the optimized model reached 87.05\%, so the baseline was slightly better on this metric. 
+However, the optimized model trained in roughly 50 seconds compared to about 134 seconds for the baseline, which is a meaningful efficiency gain for a drop of only about 1.35\% accuracy. This is a significant improvement in terms of time. \\
+
+\textbf{4. Which hyperparameter had the greatest impact?}
+
+Based on how much the search results fluctuated between iterations, the optimizer and learning rate combination appeared to matter the most. Trials using SGD with a high learning rate (0.1) collapsed to very low cross-validation accuracy, while Adam-based trials were consistently strong regardless of other settings. Activation fucntion also played an important role. Sigmoid activation stacked across multiple hidden layers tended to perform poorly, most likely due to vanishing gradients, whereas ReLU and Tanh were both stable. Hidden layer count and neuron width had a comparatively smaller effect on accuracy within the ranges tested.\\
+
+\textbf{5. Compare Grid Search and Randomized Search.}
+
+Grid Search evaluates every possible combination in the defined search space, which guarantees that the best combination within that space will be found, but the computing cost and time increases rapidly as hyperparameters are added. In this experiment, it is an 8-dimensional space, and grid search would be infeasible in this space. Randomized Search samples a fixed number of random combinations, which does not guarantee finding the single best combination, but in practice tends to find a good combination much faster, especially when only a few of the hyperparameters actually matter much. For this experiment, Randomized Search was the more sensible choice given the size of the search space and the time available.\\
+
+\textbf{6. Recommend the best MLP configuration.}
+
+Taking both accuracy and training cost into account, the baseline configuration is recommended if test accuracy is the main priority, since it achieved the highest accuracy. If faster training and a smaller, more regularized model are more important, then the optimized configuration (2 layers of 64 neurons, Tanh activation, dropout 0.5, batch size 128) is a reasonable alternative, trading a small amount of accuracy for less than half the training time. \\\\
+
+\section*{11. Conclusion}
+
+This experiment implemented and trained a multilayer perceptron for multi-class image classification on the Fashion-MNIST dataset. It covered the complete implementation from raw image preprocessing through to automated hyperparameter optimization. The baseline model, following the given architecture achieved a test accuracy of 88.40\%. An alternative configuration was found through hyperparameter search using RandomizedSearchCV with 5-fold cross-validation. This new model is a smaller two-layer network with Tanh activation and heavier dropout, and produced a slightly lower test accuracy of 87.05\% but trained in less than half the time of the baseline model. This is a very huge improvement in terms of time, in exchange for a minor tradeoff on accuracy.The additional experiment used the multilayer perceptron to solve the XOR problem, proving that it can draw non-linear decision boundaries, and solve problems which single layer perceptrons can't. Overall, the experiment demonstrated the complete workflow of building, training, evaluating, and tuning a multilayer perceptron, analyzed its advantages over single layer perceptron, and the importance of hyperparameter tuning.\\
+
+\section*{12. References}
+\begin{enumerate}
+\item Goodfellow et al., \emph{Deep Learning}.
+\item Bishop, \emph{Pattern Recognition and Machine Learning}.
+\item Haykin, \emph{Neural Networks and Learning Machines}.
+\item Fashion-MNIST Dataset.
+\item TensorFlow/Keras Documentation.
+\end{enumerate}
+
+\end{document}
