@@ -1,0 +1,8 @@
+Metric,Value
+Training Accuracy,0.9757199883460999
+Testing Accuracy,0.9197
+Precision,0.92159254879709
+Recall,0.9197
+F1-score,0.9200527564099581
+Training Time (s),4451.24
+Total Parameters,14848586.0

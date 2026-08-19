@@ -1,0 +1,6 @@
+Model,Depth,Parameters,Accuracy (%),Training Time (s)
+LeNet-5,7,83126,53.78,70.48
+AlexNet,8,8576906,70.61,290.36
+VGG16,16,14848586,91.97,4451.24
+GoogleNet (InceptionV3),22,22329898,82.83,597.73
+ResNet50,50,24114826,86.13,419.78
