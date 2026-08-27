@@ -475,7 +475,7 @@ All ten classes have an equal number of training samples, confirming that CIFAR-
 \includegraphics[width=0.8\textwidth]{figures/03_kernel_size_comparison.png}
 \end{center}
 
-As kernel size increases from $3\times3$ to $7\times7$, the resulting feature map becomes smaller and captures coarser, more global spatial patterns. Smaller kernels preserve finer spatial detail and are computationally cheaper, which explains their widespread use in modern CNN architectures.
+As kernel size increases from $3\times3$ to $7\times7$, the resulting feature map becomes smaller and captures more global spatial patterns. Smaller kernels preserve finer spatial detail and are computationally cheaper, while larger kernels detects larger patterns over space.
 
 \vspace{4mm}
 \textbf{Stride and Padding Comparison}
@@ -502,7 +502,7 @@ Each feature map highlights a different learned pattern in the input image, such
 \includegraphics[width=0.8\textwidth]{figures/06_maxpool_vs_avgpool.png}
 \end{center}
 
-Max Pooling retains the strongest activation in each window, making it more sensitive to sharp, salient features such as edges. Average Pooling smooths the response by averaging all values in the window, producing a more stable but less sharp summary.
+Max Pooling retains the largest activation in each window, and it captures the sharp features like edges, corners, etc. Average Pooling produces a smoothened output by averaging all values in the window, and gives stable, generalized outputs.
 
 \vspace{20mm}
 \textbf{Training Accuracy vs Epoch}
@@ -511,7 +511,7 @@ Max Pooling retains the strongest activation in each window, making it more sens
 \includegraphics[width=0.8\textwidth]{figures/07_training_accuracy.png}
 \end{center}
 
-Training accuracy increases steadily across the 20 epochs as the network progressively learns discriminative features from the training data, with the rate of improvement slowing in later epochs as the model approaches convergence.
+Training accuracy increases steadily across 20 epochs and the model learns contiunously. It surges in the beginning and slows down during later epochs, and starts to stabilize around epoch 18-20, approaching convergence.
 
 \vspace{4mm}
 \textbf{Validation Accuracy vs Epoch}
@@ -520,7 +520,7 @@ Training accuracy increases steadily across the 20 epochs as the network progres
 \includegraphics[width=0.8\textwidth]{figures/08_validation_accuracy.png}
 \end{center}
 
-Validation accuracy tracks training accuracy but with more fluctuation, reflecting the model's generalization performance on unseen data. Any widening gap between training and validation accuracy in later epochs would indicate the onset of overfitting.
+Validation accuracy follows the path of training accuracy, but contains more fluctuations, reflecting the model's generalization performance on unseen data. Final accuracies are similar during training and validation, but for further epochs, if validation accuracy drops, it indicates overfitting. 
 
 \vspace{4mm}
 \textbf{Training Loss vs Epoch}
@@ -529,7 +529,7 @@ Validation accuracy tracks training accuracy but with more fluctuation, reflecti
 \includegraphics[width=0.8\textwidth]{figures/09_training_loss.png}
 \end{center}
 
-Training loss decreases consistently as the categorical cross-entropy between predicted and true class probabilities shrinks, confirming that the Adam optimizer is successfully minimizing the objective function.
+Training loss decreases consistently as epochs increase. This indicates the efficiency of Adam optimizer, as it proves to minimize the cross-entropy loss between true and predicted labels.
 
 \vspace{4mm}
 \textbf{Validation Loss vs Epoch}
@@ -538,7 +538,7 @@ Training loss decreases consistently as the categorical cross-entropy between pr
 \includegraphics[width=0.8\textwidth]{figures/10_validation_loss.png}
 \end{center}
 
-Validation loss generally decreases alongside training loss; if it were to plateau or rise while training loss keeps falling, this would signal overfitting and motivate additional regularization such as dropout or batch normalization.
+Validation loss has decreased from epoch 1 to 20, but with heavy fluctuations. It does not stabilize anywhere, and it can learn further. A rise over further epochs would indicate overfitting.
 
 \vspace{4mm}
 \textbf{Confusion Matrix}
@@ -547,7 +547,7 @@ Validation loss generally decreases alongside training loss; if it were to plate
 \includegraphics[width=0.7\textwidth]{figures/11_confusion_matrix.png}
 \end{center}
 
-The confusion matrix reveals which classes are most frequently confused with one another -- visually similar classes such as cat/dog and deer/horse show higher off-diagonal values, while structurally distinct classes such as airplane, automobile, and ship are classified with higher accuracy.
+The confusion matrix reveals which classes are most frequently confused with one another are visually similar classes such as cat/dog and deer/horse show higher off-diagonal values, while structurally distinct classes such as airplane, automobile, and ship are classified with higher accuracy.
 
 \vspace{6mm}
 \section*{8. Additional Exercises}
@@ -583,7 +583,8 @@ Result: The convolution layer has 1,792 trainable parameters.\\
 \includegraphics[width=0.8\textwidth]{figures/12_relu_vs_sigmoid.png}
 \end{center}
 
-The ReLU model learns faster and usually reaches a higher accuracy than the Sigmoid model. ReLU helps reduce the vanishing gradient issue for positive inputs, which allows the network to learn more effectively. Sigmoid tends to produce very small gradients at its extreme values, which slows down the learning process.\
+The ReLU model learns faster and usually reaches a higher accuracy than the Sigmoid model. ReLU helps reduce vanishing gradient problem, by preserving positive gradients, while Sigmoid shrinks a few positive gradients to very small values, causing vanishing gradients problem.\
+
 
 \vspace{4mm}
 \textbf{4. Max Pooling vs Average Pooling: Full Training Comparison}
@@ -592,9 +593,10 @@ The ReLU model learns faster and usually reaches a higher accuracy than the Sigm
 \includegraphics[width=0.8\textwidth]{figures/13_maxpool_vs_avgpool_training.png}
 \end{center}
 
-The Max Pooling model performs slightly better on validation accuracy compared to Average Pooling. Max Pooling keeps the strongest activations from each region, which helps retain important features for classification. Average Pooling instead takes the average of the values, giving a smoother representation but losing some of the stronger features.\
+Max Pooling model performs slightly better on validation accuracy compared to Average Pooling. Max Pooling keeps the strongest activations from each region, which helps retain important features for classification. Average Pooling instead takes the average of the values, giving a smoother representation but losing some of the stronger features.\
 
 \vspace{4mm}
+
 \textbf{5. Effect of Increasing Filter Count (16 $\rightarrow$ 64)}
 
 \begin{center}
@@ -608,17 +610,17 @@ Increasing the filter count from 16 to 64 gives the CNN more filters to detect d
 
 \textbf{1. Why is convolution preferred over fully connected layers for images?}
 
-Convolution works well for images because it looks at small regions of the image at a time and can detect useful patterns such as edges and textures. The same filter is used across different parts of the image, so the number of parameters is much smaller than in a fully connected layer. It also helps the network recognize features even when their position changes slightly in the image.
+Convolution works well for images because it goes through small parts of the image at a time detects patterns such as edges and textures. Also, the number of parameters is less, as the filter keeps moving throughout the image. The same filter is used across different parts of the image, so the number of parameters is much smaller than in a fully connected layer. Fully connected layers use multiple parameters, as every layer is interconnected. It also loses spatial information about the image.
 
 \vspace{4mm}
 \textbf{2. How does stride affect the feature map size?}
 
-Stride decides how far the kernel moves after each convolution. A larger stride makes the kernel skip more pixels, resulting in a smaller feature map. The output size can be calculated using $\frac{N-F+2P}{S}+1$. Increasing the stride reduces the spatial size and computation, but too large a stride can cause some important image details to be lost.
+Stride decides how much spaces the filter should move after each convolution. Bigger values of stride mean that the kernel moves more spaces every step, and hence produces a smaller feature map.  The output size can be calculated using $\frac{N-F+2P}{S}+1$, where S is the stride. Increasing the stride reduces the spatial size and computation, but too large a stride can cause some important image details to be lost.
 
 \vspace{4mm}
 \textbf{3. What is the role of padding?}
 
-Padding adds extra pixels around the edges of the input image, usually with zeros. It helps maintain the size of the feature map, especially when using \texttt{same} padding. It also allows the pixels near the edges to be considered properly instead of being used less often than the pixels in the middle.
+Padding adds extra pixels around the edges of the input image. This is done to preserve the size of the feature map, maintaining input size after convolution. Generally, it adds pixels of value 0 along the edges of the image. It also allows the pixels near the edges to be considered properly instead of being used less often than the pixels in the middle.
 
 \vspace{4mm}
 \textbf{4. Why is pooling used?}
@@ -633,16 +635,14 @@ A feature map shows where a particular filter finds a useful pattern in an image
 \vspace{4mm}
 \textbf{6. Why do CNNs require fewer parameters than MLPs?}
 
-CNNs use the same set of kernel weights at different positions in the image instead of using separate weights for every connection. They also work with small local regions rather than connecting every pixel to every neuron. Because of this, CNNs can learn useful image features with far fewer parameters than a fully connected MLP.
+CNNs use the same set of kernel weights at different positions in the image instead of using separate weights for every connection. They also work with small local regions rather than connecting every pixel to every neuron. MLPs have fully connected layers, making the number of parameters very high. Because of this, CNNs can learn useful image features with far fewer parameters than a fully connected MLP.
 
 \vspace{6mm}
 \section*{10. Conclusion}
 
-In this experiment, the main building blocks of Convolutional Neural Networks, including convolution, activation, pooling, and fully connected layers, were implemented and tested using the CIFAR 10 dataset. The effect of kernel size, stride, and padding on the convolution output was also studied through calculations and direct implementation. The results matched the expected output size given by $\frac{N-F+2P}{S}+1$. Visualizing the feature maps showed how different filters can detect different patterns in an image. The comparison between Max Pooling and Average Pooling also showed that Max Pooling keeps stronger features, while Average Pooling produces a smoother representation.
+In this experiment, the main building blocks of Convolutional Neural Networks, including convolution, activation, pooling, and fully connected layers, were implemented and tested using the CIFAR 10 dataset. Effects of paramaters like stride, padding and kernel size, were also implemented and studied. The results matched the expected output size given by the formula. Visualizing the feature maps showed how different filters can detect different patterns in an image. The comparison between Max Pooling and Average Pooling also showed that Max Pooling keeps stronger features, while Average Pooling produces a smoother representation.
 
-A CNN with the architecture Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Flatten $\rightarrow$ Dense $\rightarrow$ Softmax was trained on CIFAR 10 for 20 epochs using the Adam optimizer. The model was then evaluated using classification metrics and a confusion matrix. The additional experiments helped in understanding how the number of parameters changes, how different activation functions affect training, and how increasing the number of filters can improve accuracy while also increasing computation.
-
-Overall, the experiment gave practical experience with the basic concepts behind CNNs and showed how different design choices affect the model's performance. It also showed that techniques such as batch normalization, dropout, and L2 regularization could be explored further to improve the model's performance and generalization.
+A CNN with the architecture Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Conv $\rightarrow$ ReLU $\rightarrow$ MaxPool $\rightarrow$ Flatten $\rightarrow$ Dense $\rightarrow$ Softmax was trained on CIFAR 10 for 20 epochs using the Adam optimizer. The model was then evaluated using classification metrics and a confusion matrix. The additional experiments helped in understanding how the number of parameters changes, how different activation functions affect training, and how increasing the number of filters can improve accuracy while also increasing computation. Overall, the experiment gave practical experience with the basic concepts behind CNNs and showed how different design choices affect the model's performance.
 
 \vspace{6mm}
 \section*{11. References}

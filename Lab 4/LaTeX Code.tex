@@ -766,7 +766,7 @@ The repository contains a single Google Colab notebook covering all tasks experi
 \caption{Sample CIFAR-10 Images}
 \end{figure}
 
-10 randomly sampled CIFAR-10 images are shown above, one label per image drawn from the ten classes. The samples confirm that the dataset was loaded and decoded correctly, with images at their native $32\times32\times3$ resolution.
+10 randomly sampled CIFAR-10 images are shown above, with one image per class. This indicate that the dataset has been loaded successfully. The images are at the default resolution of 32 x 32 x 3.
 
 \vspace{5mm}
 
@@ -776,7 +776,7 @@ The repository contains a single Google Colab notebook covering all tasks experi
 \caption{Training and Validation Accuracy (Frozen Base, VGG16)}
 \end{figure}
 
-Training accuracy rises steadily and stabilizes near 98\% while the frozen convolutional base is used, showing the dense classifier head fitting the training data. Validation accuracy stays noticeably lower and flattens around 85--86\%, indicating a persistent generalization gap during this phase.
+Training accuracy is high at epoch 1 itself, and slowly rises from 96 to 98\% steadily. It stabilizes near 98\%, indicating continuous learning, and convergence around about epoch 10. Validation accuracy is lower and flattens around 85--86\%, indicating a generalization gap during this phase.
 
 \vspace{5mm}
 
@@ -796,7 +796,7 @@ Training loss decreases consistently across epochs, while validation loss rises 
 \caption{Combined Accuracy and Loss Across Frozen-Base and Fine-Tuning Phases}
 \end{figure}
 
-The dashed line marks the start of fine-tuning, after which validation accuracy improves markedly and validation loss drops sharply. This confirms that unfreezing the last convolutional block allows the network to adapt its ImageNet features to the CIFAR-10 domain, closing much of the earlier generalization gap.
+Validation accuracy improves after the dotted line (fine tuning) and validation loss drops sharply after that line too. This shows that unfreezing the last block allows the model to modify its pretrained features to suit the CIFAR-10 data.
 
 \vspace{5mm}
 
@@ -928,43 +928,44 @@ ResNet50 & 24,114,826 & 86.13 & 419.78 s\\
 
 \item \textbf{Why is AlexNet considered a breakthrough in deep learning?}
 
-AlexNet was the first deep CNN to win the ImageNet Large Scale Visual Recognition Challenge by a large margin, demonstrating that deep convolutional networks could outperform traditional hand-engineered computer vision methods. It popularized ReLU activation for faster convergence, dropout for regularization, and GPU-based training for scaling to large networks and datasets, establishing the template that most modern CNNs still follow.\\
-
+AlexNet was the first deep CNN to win the ImageNet Large Scale Visual Recognition Challenge by a large margin, showing that deep CNNs could outperform traditional hand-engineered computer vision methods. It introduced ReLU activations for faster training, dropout for regularization, and GPU-based training to handle large networks and datasets, making it an important model for modern deep learning.\
+\\
 \item \textbf{Why does VGG16 use only $3\times3$ convolution filters?}
 
-Stacking multiple $3\times3$ filters achieves the same effective receptive field as a single larger filter (e.g., two $3\times3$ layers approximate a $5\times5$ receptive field) while using fewer parameters and adding more non-linear activation steps in between. This makes the network deeper and more expressive without a proportional increase in computational cost.\\
-
+Stacking multiple $3\times3$ filters can achieve the same effective receptive field as a larger filter. For example, two $3\times3$ layers give a receptive field similar to a $5\times5$ filter, while using fewer parameters and adding more non-linear activation steps. This allows VGG16 to become deeper and more expressive without a large increase in computational cost.\
+\\
 \item \textbf{Explain the advantages of the Inception module.}
 
-The Inception module applies multiple filter sizes ($1\times1$, $3\times3$, $5\times5$) and pooling in parallel within the same layer, allowing the network to capture features at multiple scales simultaneously. The $1\times1$ convolutions act as dimensionality reducers before the larger filters, cutting computational cost significantly while preserving representational power, resulting in a network with far fewer parameters than VGG16 for comparable depth.\\
-
+The Inception module uses different filter sizes ($1\times1$, $3\times3$, $5\times5$) and pooling in parallel, allowing the network to learn features at different scales. The $1\times1$ convolutions reduce the number of channels before applying larger filters, which greatly lowers computation while maintaining good representation. This helps Inception achieve comparable performance with fewer parameters than VGG16.\
+\\
 \item \textbf{What is the purpose of residual learning?}
 
-Residual learning reformulates each block to learn a residual function $F(x) = H(x) - x$ instead of directly learning the full mapping $H(x)$, with the output computed as $F(x) + x$. Skip connections let gradients flow directly through identity paths during backpropagation, which mitigates the vanishing gradient problem and makes it possible to train networks with far greater depth than would otherwise be feasible.\\
-
+Residual learning makes each block learn the difference, or residual, $F(x) = H(x) - x$ instead of directly learning the complete mapping $H(x)$. The output is then $F(x) + x$. Skip connections provide a direct path for gradients during backpropagation, reducing the vanishing gradient problem and making very deep networks easier to train.\
+\\
 \item \textbf{Differentiate LeNet and ResNet.}
 
-LeNet-5 is a shallow, 7-layer network with under 100K parameters designed for simple grayscale digit recognition using average pooling and tanh activations. ResNet50 is a 50-layer deep network with over 25M parameters that uses residual (skip) connections, batch normalization, and ReLU activations to enable stable training at much greater depth on complex, large-scale natural image datasets.\\
-
+LeNet-5 is a shallow 7-layer network with under 100K parameters, designed mainly for simple grayscale digit recognition. It uses average pooling and tanh activations. ResNet50 is a much deeper 50-layer network with over 25M parameters. It uses residual connections, batch normalization, and ReLU activations, allowing it to handle complex natural image datasets effectively.\
+\\
 \item \textbf{What is Transfer Learning?}
 
-Transfer learning is the technique of reusing a model that has already been trained on a large dataset (such as ImageNet) as the starting point for a new, related task, rather than training a new model from scratch. The pretrained convolutional layers, which have already learned general-purpose visual features like edges and textures, are retained and a new classifier head is trained on top for the target task.\\
-
+Transfer learning is the process of reusing a model trained on a large dataset, such as ImageNet, for a new but related task. Instead of training from scratch, the pretrained convolutional layers are kept because they already contain useful features such as edges, textures, and shapes, while a new classifier is trained for the target task.\
+\\
 \item \textbf{Why is fine tuning required?}
 
-While a frozen pretrained base provides useful generic features, those features are optimized for the original dataset's domain (e.g., natural high-resolution ImageNet photos) and may not fully suit the new task's domain and image characteristics. Fine tuning unfreezes some of the later convolutional layers and continues training them at a low learning rate, allowing the network to adapt its higher-level features specifically to the target dataset and improve accuracy further.\\
-
+A frozen pretrained model provides useful general features, but these features were learned from the original dataset and may not perfectly match the new task. Fine tuning unfreezes some of the later convolutional layers and trains them with a low learning rate, allowing the model to adapt its higher-level features to the target dataset and improve accuracy.\
+\\
 \item \textbf{Explain the difference between dilated convolution and transpose convolution.}
 
-Dilated (atrous) convolution inserts gaps between kernel elements to increase the receptive field without adding parameters or reducing spatial resolution, and is commonly used in semantic segmentation. Transpose convolution, in contrast, performs learnable upsampling to increase the spatial dimensions of a feature map, and is used in tasks like image generation, super-resolution, and autoencoder decoders.\\
+Dilated convolution adds gaps between kernel elements to increase the receptive field without increasing the number of parameters or reducing the feature map size. It is commonly used in tasks such as semantic segmentation. Transpose convolution, on the other hand, performs learnable upsampling to increase the spatial size of feature maps and is commonly used in image generation, super-resolution, and autoencoder decoders.\\\\
 
 \item \textbf{Why do pretrained models converge faster?}
 
-Pretrained models start with weights that already encode useful low-level and mid-level visual features (edges, textures, shapes) learned from a large dataset, instead of starting from random initialization. This gives the optimizer a much better starting point, so fewer epochs are needed to reach good performance compared to training an equivalent network from scratch.\\
-
+Pretrained models start with weights that already contain useful visual features such as edges, textures, and shapes learned from a large dataset. This provides a much better starting point than random initialization, allowing the model to reach good performance in fewer epochs than a model trained from scratch.\
+\\
 \item \textbf{Compare the computational complexity of LeNet and ResNet.}
 
-LeNet-5 has roughly 60K parameters and 7 layers, making it extremely lightweight and fast to train even on limited hardware. ResNet50 has approximately 25.6M parameters across 50 layers with residual connections, making it far more computationally expensive to train and run inference on, though this added complexity is what enables it to model much more complex visual patterns.
+LeNet-5 has roughly 60K parameters and only 7 layers, making it lightweight and fast to train even on limited hardware. ResNet50 has around 25.6M parameters across 50 layers and uses residual connections, making it much more computationally expensive. However, this extra complexity allows ResNet50 to learn much more complex visual patterns.\\
+
 
 \end{enumerate}
 
@@ -1130,7 +1131,10 @@ VGG16 achieves the highest test accuracy among all five architectures after fine
 
 \section*{22. Conclusion}
 
-This experiment compared five deep convolutional neural network architectures -- LeNet-5, AlexNet, VGG16, GoogleNet (InceptionV3), and ResNet50 -- on the CIFAR-10 image classification task, using transfer learning for the pretrained architectures. The results confirm that pretrained models substantially outperform networks trained from scratch on a relatively small dataset: VGG16, fine-tuned on top of ImageNet weights, achieved the highest test accuracy of 91.97\%, followed by ResNet50 at 86.13\% and GoogleNet (InceptionV3) at 82.83\%, while LeNet-5 and AlexNet trained from scratch reached only 53.78\% and 70.61\% respectively despite far fewer or comparable parameters. Fine-tuning the last convolutional block of VGG16 improved validation accuracy from 85.88\% to 91.97\%, demonstrating that allowing pretrained features to adapt to the target domain yields a meaningful accuracy gain over a purely frozen feature extractor. The hyperparameter study further showed that learning rate, batch size, and optimizer choice had a comparatively minor effect on validation accuracy when the convolutional base remained frozen, whereas partially unfreezing layers without sufficient training epochs led to a clear drop in performance, underlining that the number of training epochs must scale with the number of trainable layers. Overall, the experiment reinforces those two central lessons: architectural depth alone does not guarantee better performance without sufficient training data or transfer learning, and leveraging pretrained ImageNet features -- combined with careful fine-tuning -- provides an efficient and effective route to strong classification accuracy on smaller, lower-resolution datasets such as CIFAR-10.
+This experiment compared five deep convolutional neural network architectures—LeNet-5, AlexNet, VGG16, GoogleNet (InceptionV3), and ResNet50—on the CIFAR-10 image classification task, using transfer learning for the pretrained models. The results showed that pretrained models performed substantially better than networks trained from scratch on this relatively small dataset. VGG16, fine-tuned with ImageNet weights, achieved the highest test accuracy of 91.97\%, followed by ResNet50 at 86.13\% and GoogleNet (InceptionV3) at 82.83\%. LeNet-5 and AlexNet, trained from scratch, achieved only 53.78\% and 70.61\%, respectively.
+
+Fine-tuning VGG16's last convolutional block improved validation accuracy from 85.88\% to 91.97\%, showing that adapting pretrained features to the target domain can significantly outperform a fully frozen feature extractor. The hyperparameter study found that learning rate, batch size, and optimizer had relatively minor effects when the convolutional base was frozen, while partially unfreezing layers without enough training epochs reduced performance. This highlights that more trainable layers require sufficient training time. Overall, the experiment shows that architectural depth alone does not guarantee better performance with limited data, while pretrained ImageNet features combined with careful fine-tuning provide an effective approach for smaller, lower-resolution datasets such as CIFAR-10.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
