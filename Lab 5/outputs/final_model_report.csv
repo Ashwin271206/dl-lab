@@ -1,0 +1,9 @@
+Metric,Value
+Mean CV Accuracy (%),91.63
+CV Standard Deviation,0.55
+Test Accuracy (%),90.8
+Precision (macro),0.9121
+Recall (macro),0.908
+F1-score (macro),0.9071
+Training Time (s),143.3
+Number of Parameters,2431845.0

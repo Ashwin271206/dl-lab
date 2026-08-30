@@ -1,0 +1,8 @@
+Configuration,Test Accuracy
+Baseline (No Regularization),90.43% (val)
+Best Initialization (Random),90.25% (val)
+Best Regularization (No Regularization),90.43% (val)
+Best Optimizer (Adam),89.98% (val)
+Best Hyperparameters (from sweeps),90.70% (val)
+Fine-Tuned Model,90.97% (val)
+Final Selected Model (C3_RMSProp_Dropout0.5_BN),90.8%

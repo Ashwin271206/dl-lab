@@ -1,0 +1,4 @@
+Configuration,F1,F2,F3,F4,F5,Mean,SD
+N1_LowLR_HighDropout_SmallBatch_FT,91.4,90.14,89.66,90.43,91.59,90.64,0.74
+N2_HighLR_LowDropout_LargeBatch_FE,90.72,91.21,90.14,90.91,92.55,91.11,0.8
+C3_RMSProp_Dropout0.5_BN,91.79,91.11,91.01,91.68,92.55,91.63,0.55

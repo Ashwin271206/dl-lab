@@ -1,0 +1,5 @@
+Optimizer,Final Loss,Best Val. Accuracy,Epoch to Converge,Time (s)
+SGD,1.2797,79.96,10,134.2
+Momentum,0.3545,89.17,9,125.1
+RMSProp,0.1554,89.71,10,125.0
+Adam,0.141,89.98,9,125.4
