@@ -24,8 +24,12 @@ This is the master repository for all lab experiments completed as part of the C
 
 ```
 .
-├── Experiment_1/
-├── Experiment_2/
+├── Lab 1/
+├── Lab 2/
+├── Lab 3/
+├── Lab 4/
+├── Lab 5/
+├── Lab 6/
 ├── ...
 └── README.md
 ```

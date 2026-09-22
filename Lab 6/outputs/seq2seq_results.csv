@@ -1,0 +1,5 @@
+Metric,Value
+Token Accuracy (%),100.0
+Sequence Accuracy (%),100.0
+Training Loss,0.002983029931783676
+Validation Loss,0.003673969302326441

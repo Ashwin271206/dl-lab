@@ -1,0 +1,11 @@
+Property,RNN,LSTM,GRU
+Hidden state,Yes,Yes,Yes
+Cell state,No,Yes,No
+Forget gate,No,Yes,No
+Input gate,No,Yes,No
+Output gate,No,Yes,No
+Update gate,No,No,Yes
+Reset gate,No,No,Yes
+Parameters,1974,6006,4758
+Training time,27.45s,23.49s,20.88s
+Test F1-score,81.88,95.55,94.60
