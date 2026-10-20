@@ -74,3 +74,7 @@ An end-to-end study of sequence learning using Vanilla RNN, LSTM, and GRU archit
 ### Lab 7 - Autoencoders & VAEs
 
 A study of representation learning and generative modeling on MNIST using a Fully Connected Autoencoder, a Convolutional Autoencoder, a Denoising Convolutional Autoencoder, and a Variational Autoencoder. The experiment evaluates reconstruction quality (MSE, MAE, SSIM) across latent dimensions and noise levels, and uses the VAE's 2D latent space to visualize the learned distribution, generate new digits, and interpolate between digit classes.
+
+### Experiments 8 & 9 - Attention Mechanisms
+
+An experimental study of how attention mechanisms and their insertion positions affect image classification using an ImageNet-pretrained ResNet50 on the TensorFlow Flowers dataset. It compares channel, spatial, sequential channel–spatial, and self-attention mechanisms based on accuracy, precision, recall, macro F1-score, parameter count, and inference time. It also investigates attention placement across ResNet50 stages, multiple attention positions, attention ordering, spatial-attention kernel sizes, and established mechanisms such as SE, ECA, CBAM, and Coordinate Attention, with attention-map and Grad-CAM visualizations for interpretation.

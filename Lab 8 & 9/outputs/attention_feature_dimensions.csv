@@ -1,0 +1,20 @@
+Model,Description,Position,Placement,"Input to attention (H, W, C)","Output of attention (H, W, C)",Dimensions preserved
+A1,Channel Attention @P3 (= SE),P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+A2,Spatial Attention @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+A3,Channel->Spatial @P3 (k=7),P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+A4,Self-Attention @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+A5,Combined C->S->SA @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+B1,Channel->Spatial @P1,P1,conv2_x -> Attention -> conv3_block1,"(56, 56, 256)","(56, 56, 256)",True
+B2,Channel->Spatial @P2,P2,conv3_x -> Attention -> conv4_block1,"(28, 28, 512)","(28, 28, 512)",True
+B4,Channel->Spatial @P4,P4,conv5_x -> Attention -> head_gap (GAP),"(7, 7, 2048)","(7, 7, 2048)",True
+M_P34,Channel->Spatial @P3+P4,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+M_P34,Channel->Spatial @P3+P4,P4,conv5_x -> Attention -> head_gap (GAP),"(7, 7, 2048)","(7, 7, 2048)",True
+M_P234,Channel->Spatial @P2+P3+P4,P2,conv3_x -> Attention -> conv4_block1,"(28, 28, 512)","(28, 28, 512)",True
+M_P234,Channel->Spatial @P2+P3+P4,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+M_P234,Channel->Spatial @P2+P3+P4,P4,conv5_x -> Attention -> head_gap (GAP),"(7, 7, 2048)","(7, 7, 2048)",True
+O_SC,Spatial->Channel @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+K3,Channel->Spatial @P3 (k=3),P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+K5,Channel->Spatial @P3 (k=5),P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+ECA,ECA @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+CBAM,CBAM @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
+COORD,Coordinate Attention @P3,P3,conv4_x -> Attention -> conv5_block1,"(14, 14, 1024)","(14, 14, 1024)",True
